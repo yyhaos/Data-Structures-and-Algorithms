@@ -1,1 +1,3 @@
-
+3.25
+Without Random  : O(N)~O(N^2)
+With Random     : O(N*logN)
