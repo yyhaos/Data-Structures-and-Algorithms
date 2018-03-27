@@ -4,7 +4,6 @@ using namespace std;
 int partition(int a[],int i,int j)
 {
     //random version
-    srand((unsigned)time(NULL));
     int random = rand()%(j-i+1);
     swap (a[i],a[random+i]);
 
@@ -35,6 +34,7 @@ int main()
 {
     int k[10005];
     int n;
+    srand((unsigned)time(NULL));
 
     scanf("%d",&n);
     for (int i=0;i<n;i++)
