@@ -24,7 +24,9 @@ int main ()
 
     for(i=0;i<th_odd;i++)
     {
-        printf("%d ",odd[i]);
+        printf("%d",odd[i]);
+        if(i<th_odd-1  ||  th_even>0)     //trick : there may be only odd numbers
+            printf(" ");
     }
     for(i=0;i<th_even;i++)
     {
