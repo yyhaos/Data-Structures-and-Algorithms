@@ -1,0 +1,56 @@
+#include<bits/stdc++.h>
+using namespace std;
+//Problem   :   http://www.bnuoj.com/v3/problem_show.php?pid=34988
+#define LL long long
+const int MAXN=100010;
+bool cmp(LL a,LL b)
+{
+    return a>b;
+}
+int main ()
+{
+    #LL aa=1LL<<63; //LL is important
+    #printf("%lld\n",aa);
+    bool cmp(LL a,LL b);
+    char tem[MAXN];
+    int T,N,K,i,j,th;
+    LL num[2*MAXN],ans;
+    scanf("%d",&T);
+    for(i=0;i<T;i++)
+    {
+        ans=0;
+        scanf("%d %d",&N,&K);
+        for(th=0;th<2*N;th++)
+        {
+            num[th]=0;
+        }
+        for(j=0;j<N;j++)
+        {
+            scanf("%s",tem);
+            for(th=0;tem[th];th++)
+            {
+                num[j]=(num[j]<<1)+tem[th]-'0';
+                num[j+N]=(num[j+N]<<1)-tem[th]+'1';
+            }
+        }
+        LL max1=-1,max2=-1;
+        for(j=0;j<2*N;j++)
+        {
+            if(num[j]>=max1)
+            {
+                max2=max1;
+                max1=num[j];
+            }
+            else if(num[j]>=max2)
+            {
+                max2=num[j];
+            }
+        }
+        ans=max1+max2-(1LL<<K)+1;   //1<<K is false
+        if(N==1)
+            ans=0;
+        printf("Case #%d: %lld\n",i+1,ans);
+    }
+    return 0;
+}
+
