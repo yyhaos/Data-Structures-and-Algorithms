@@ -1,0 +1,39 @@
+#include<bits/stdc++.h>
+using namespace std;
+//Problem   :   http://www.bnuoj.com/v3/problem_show.php?pid=1013
+struct program
+{
+    int th;
+    int time;
+};
+bool cmp(program a,program b)
+{
+    if(a.time!=b.time)
+        return a.time<b.time;
+    else
+        return a.th<b.th;
+}
+int main ()
+{
+    struct program pros[3005];
+    bool cmp(program a,program b);
+    int N,i,M,j;
+    scanf("%d",&N);
+    for(i=1;i<=N;i++)
+    {
+        if(i-1)
+            printf("\n");
+
+        scanf("%d",&M);
+        for(j=0;j<M;j++)
+        {
+            pros[j].th=j+1;
+            scanf("%d",&pros[j].time);
+        }
+        sort(pros,pros+M,cmp);
+        printf("Case %d:",i);
+        for(j=0;j<M;j++)
+            printf(" %d",pros[j]);
+    }
+    return 0;
+}
