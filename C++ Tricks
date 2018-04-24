@@ -1,0 +1,8 @@
+1 
+1LL<<63 = -9223372036854775808
+1<<63   = 0
+
+2
+char tem[50];
+scanf("%s",tem);
+for(int i = 0;tem[i];i++) //at the end of tem, the char is '\0', which' ascii code is 0
