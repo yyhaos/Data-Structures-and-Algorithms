@@ -1,7 +1,7 @@
 #include<bits/stdc++.h>
 using namespace std;
-//Problem   :   http://acm.bnu.edu.cn/v3/problem_show.php?pid=5432
-int fat[1005];
+//Problem   :   http://acm.bnu.edu.cn/v3/problem_show.php?pid=4216
+int fat[100005];
 int f(int i)
 {
     if(fat[i]==i)
@@ -43,3 +43,4 @@ int main ()
         printf("%d\n",ans);
     }
 }
+

@@ -1,4 +1,4 @@
-1 
+﻿1 
 1LL<<63 = -9223372036854775808
 (1LL<<63)-1  = 9223372036854775807
 1<<63   = 0
@@ -12,3 +12,6 @@ for(int i = 0;tem[i];i++) //at the end of tem, the char is '\0', which' ascii co
 3
 The On-Line Encyclopedia of Integer Sequences® (OEIS®)  //genius web
 websites : http://oeis.org/
+
+4
+//Codeblocks 16.01: Use the break point in all English path. 
