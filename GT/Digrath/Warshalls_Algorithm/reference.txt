@@ -1,0 +1,2 @@
+Discrete Mathematical Structures/page 159
+efficent to compute transitive closure.
