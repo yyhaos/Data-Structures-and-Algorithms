@@ -15,3 +15,6 @@ websites : http://oeis.org/
 
 4
 //Codeblocks 16.01: Use the break point in all English path. 
+
+5
+Never use "cin" to read data when in acm
