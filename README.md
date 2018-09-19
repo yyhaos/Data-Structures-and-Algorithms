@@ -1,6 +1,8 @@
 # Data-Structures-and-Algorithms
-2018.3.31-
-LL(linked list)-stack/basic LL/ACM
-2018.3.25-
+2018.3.31-  
+LL(linked list)-stack/basic LL/ACM  
+2018.3.25-  
 Reference Websites : 
-https://visualgo.net/en/sorting?slide=10-2
+https://visualgo.net/en/sorting?slide=10-2  
+2018.9.4-  
+Class  
