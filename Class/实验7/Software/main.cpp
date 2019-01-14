@@ -31,11 +31,11 @@ public:
     }
     int mi(Time a)
     {
-        int mi=hour*60+minute;
+        int mi1=hour*60+minute;
         int mi2=a.hour*60+a.minute;
-        if(mi2<=mi)
+        if(mi2<=mi1)
             mi2+=24*60;
-        return mi2-mi;
+        return mi2-mi1;
     }
 //    friend ostream& operator <<(ostream& os,const Time& a );
 };
@@ -96,6 +96,7 @@ public:
                 }
             }
             vis[minth]=1;
+//cout<<"minth="<<CityName[minth]<<endl;
             if(minth==e)
                 break;
             //cout<<"min="<<minn<<" "<<minth<<endl;
@@ -113,9 +114,13 @@ public:
                     case 2:
                         if(path[minth]!=-1)
                         {
-                            if(dis[j]>dis[minth]+Flight[minth][j].End.mi(Flight[path[i]][minth].End));
+//                            Flight[minth][j].Start.show();
+//                            cout<<" ";
+//                            Flight[path[minth]][minth].End.show();
+//                            cout<<" ";
+                            if(dis[j]>dis[minth]+Flight[path[minth]][minth].End.mi(Flight[minth][j].Start)+Flight[minth][j].FlightTime());  //不能写dis[minth]+Flight[minth][j].End.mi(Flight[path[i]][minth].End) 否则可能会少算一天时间（上飞机必须等到明天的情况）。
                             {
-                                dis[j]=dis[minth]+Flight[minth][j].End.mi(Flight[path[i]][minth].End);
+                                dis[j]=dis[minth]+Flight[path[minth]][minth].End.mi(Flight[minth][j].Start)+Flight[minth][j].FlightTime();
                                 path[j]=minth;
                             }
                         }
@@ -145,6 +150,13 @@ public:
                 }
             }
         }
+        for(int i=0;i<CityTotalNumber;i++)
+        {
+            cout<<CityName[i]<<" : ";
+            Time(dis[i]).show();
+            cout<<" ";
+        }
+        cout<<endl;
         if(dis[e]<Maxn)
             {
                 cout<<st<<"到"<<ed<<"的路径";
@@ -154,7 +166,7 @@ public:
                 switch(type)//type=1:飞行时间最短,type=2:总用时最短,type=3:费用最小,type=4:中转次数最少
                 {
                 case 1:
-                    cout<<"时间是";
+                    cout<<"飞行时间是";
                     Time(dis[e]).show();
                     break;
                 case 2:
@@ -276,6 +288,7 @@ void getTime(ifstream &input,int &h,int &m)
     input.get();
     input.get();
     input>>m;
+    cout<<"get Time"<<h<<":"<<m<<endl;
 }
 int main ()
 {
