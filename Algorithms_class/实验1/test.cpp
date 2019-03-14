@@ -7,12 +7,12 @@ using namespace std;
 const ll INF=99999999999999999LL;
 ll M[22][22];   //旅行费用邻接矩阵
 ll n;   //城市数
-ll dp[1<<21][22];//动态规划记录数组 如果超出内存，可以改小（1<<(n+1))
+ll dp[1<<17][16][16];//动态规划记录数组 分别记录：当前城市遍历情况、起点城市、末站城市。 如果超出内存，可以改小（1<<(n+1))
 time_t start,stop;//记录时间
-ll path[15];//动态规划路径记录数组
-ll A[22];   //枚举路径记录数组
-ll tt[22];  //枚举当前路径
-ll used[122];//枚举used数组
+ll path[16];//动态规划路径记录数组
+ll A[16];   //枚举路径记录数组
+ll tt[16];  //枚举当前路径
+ll used[16];//枚举used数组
 
 void fi(int ce,ll& ans); //递归枚举
 ll DP(ll start, ll tar, ll path[15]);   //动态规划
@@ -70,54 +70,80 @@ int main ()
 }
 ll DP(ll start, ll tar, ll path[15])   //动态规划
 {
-    //cout<<start<<" "<<tar<<endl;
-    for(int now=start;now<=tar;now++)//枚举当前状态量 二进制表示 0表示没有走当前城市 1表示走过当前城市
+    if(tar==1)
     {
-        if(now==start)    //起点
+        path[0]=0;
+        return 0;
+    }
+    //cout<<start<<" "<<tar<<endl;
+    for(int beg=0;beg<n;beg++)  //枚举最开始的城市
+    {
+        for(int now=start;now<=tar;now++)//枚举当前状态量 二进制表示 0表示没有走当前城市 1表示走过当前城市
         {
-            for(int to=0;to<n;to++)
+
+            if(now==start)    //起点
             {
-                dp[1<<to][to]=0;
+                for(int to=0;to<n;to++)
+                {
+                    dp[1<<to][to][to]=0;
+                }
             }
-        }
-        else
-            for(int pre=0;pre<n;pre++)//枚举当前状态量下的最后一个城市
+            else if((now & (1<<beg))==0)//如果起点城市的情况不是1 则跳过
             {
-                for(int to=0;to<n;to++)//枚举下一个城市
+                continue;
+            }
+            else
+                for(int pre=0;pre<n;pre++)//枚举当前状态量下的最后一个城市
                 {
                     if((now & (1<<pre))==0)//最后一个城市不在已走城市中
                         continue;
-                    if((now & (1<<to))==1)//下一个城市已经在城市中
-                        continue;
-                    dp[now+(1<<to)][to]=min(dp[now+(1<<to)][to],dp[now][pre]+M[pre][to]);//松弛操作
+                    //cout<<beg<<" "<<now<<" "<<pre<<endl;
+                    if(now==tar)//所有城市均历遍到了 结束时加上返回的费用
+                    {
+                        dp[now][beg][pre]+=M[pre][beg];
+                    }
+                    else
+                        for(int to=0;to<n;to++)//枚举下一个城市
+                        {
+                            if((now & (1<<to))==1)//下一个城市已经在城市中
+                                continue;
+                            dp[now+(1<<to)][beg][to]=min(dp[now+(1<<to)][beg][to],dp[now][beg][pre]+M[pre][to]);//松弛操作
+                        }
                 }
-            }
+        }
     }
-
 
     //找到路径 （反着走一遍）
     ll ans=INF;
     ll to;
-    for(int i=0;i<n;i++)//枚举最终状态
+    ll st;
+    for(int i=0;i<n;i++)
     {
-        ans=min(ans,dp[tar][i]);//解出最小路径
-        if(ans==dp[tar][i])
-            to=i;
+        for(int j=i+1;j<n;j++)//枚举最终状态
+        {
+            if(i==j)
+                continue;
+            ans=min(ans,dp[tar][i][j]);//解出最小路径
+            if(ans==dp[tar][i][j])
+            {
+                st=i;
+                to=j;
+            }
+        }
     }
+    //cout<<st<<" "<<to<<endl;
     ll cnt=n,tmp=tar;//tmp作为城市状态反推
     path[cnt--]=to;//记录末站城市
     tmp-=(1<<to);//更新tmp
+    dp[tar][st][to]-=M[to][st];//dp数组还原回去 方便反推
     while(tmp>0)
     {
-    //    cout<<tmp<<endl;
         for(int pre=0;pre<n;pre++)//枚举之前的城市
         {
             if((tmp & (1<<pre))!=0)
             {
-                //cout<<pre<<endl;
-                if(dp[tmp+(1<<to)][to]==dp[tmp][pre]+M[pre][to])    //如果前一步的状态可以转到当前状态，那就是所走的路径
+                if(dp[tmp+(1<<to)][st][to]==dp[tmp][st][pre]+M[pre][to])    //如果前一步的状态可以转到当前状态，那就是所走的路径
                 {
-                  //  cout<<pre<<endl;
                     path[cnt--]=pre;
                     to=pre;//更新状态
                     tmp-=(1<<pre);
@@ -132,7 +158,7 @@ void fi(int ce,ll& ans) //递归枚举
 {
     if(ce==n)//递归结束
     {
-        ll tmp=0;
+        ll tmp=M[tt[n-1]][tt[0]];
         for(int i=0;i<n-1;i++)
         {
             tmp+=M[tt[i]][tt[i+1]];//计算有效路径长度
@@ -183,12 +209,9 @@ void init() //初始化
         tt[i]=0;
     }
     for(int i=0;i<1<<n;i++)
-    {
-        for(int j=0;j<=n;j++)
-        {
-            dp[i][j]=INF;
-        }
-    }
+        for(int j=0;j<n;j++)
+            for(int k=0;k<n;k++)
+                dp[i][j][k]=INF;
     for(int i=0;i<=n;i++)
     {
         for(int j=0;j<=n;j++)
