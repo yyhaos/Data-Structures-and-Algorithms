@@ -1,99 +1,125 @@
 #include<bits/stdc++.h>
 using namespace std;
 #define ll long long
-ll M[10][10];
-
-//const ll tx[]={1,2,2,1,-1,-2,-2,-1};//too slow for 7,8
+const ll tx[]={1,2,2,1,-1,-2,-2,-1};//too slow for 7,8
+const ll ty[]={2,1,-1,-2,-2,-1,1,2};
+//const ll tx[]={-1,-2,-2,-1,1,2,2,1};
 //const ll ty[]={2,1,-1,-2,-2,-1,1,2};
-const ll tx[]={-1, 1, -2, 2,-2, 2,-1, 1};//too slow for 6,8
-const ll ty[]={-2,-2, -1,-1, 1, 1, 2, 2};
-
+ll M[200][200];
+ll over=0;
 void show(ll n,ll m)
 {
     for(int i=1;i<=n;i++)
     {
         for(int j=1;j<=m;j++)
         {
+            //cout<<1<<endl;
             cout<<M[i][j]<<"\t";
         }
         cout<<endl;
     }
-    cout<<endl;
-}
-int over=0;
-void dfs(ll th,ll x,ll y,ll n,ll m)
-{
-    //if(n*m==56)
-    //cout<<th<<" "<<x<<" "<<y<<endl;
-
-    if(over)    //找到了就不找了
-        return ;
-
-    if(th==n*m)
-    {
-        show(n,m);
-        over=1; //找到一个就行
-        return ;
-    }
-    else
-    {
-        if(th==0)//第一匹马 枚举其起始位置
-        {
-            for(int i=1;i<=(1+n)/2;i++)
-            {
-                for(int j=1;j<=(1+m)/2;j++) //由对称性 枚举长方形的1/8就行
-                {
-                    M[i][j]=1;  //标记
-                    dfs(th+1,i,j,n,m);  //递归
-                    M[i][j]=0;  //更新
-                }
-            }
-        }
-        else
-        {
-            ll nx,ny;
-            for(int i=0;i<8;i++)
-            {
-                nx=x+tx[i];
-                ny=y+ty[i];
-                if(nx<1 || nx>n || ny<1 || ny>m)    //跳过界
-                    continue;
-                if(M[nx][ny]!=0)    //跳过了
-                    continue;
-                M[nx][ny]=th+1; //标记
-                dfs(th+1,nx,ny,n,m);    //递归
-                M[nx][ny]=0;    //更新
-            }
-        }
-    }
 }
 void init()
 {
-    over=0;
-    for(int i=1;i<=8;i++)
-        for(int j=1;j<=8;j++)
+    for(int i=0;i<10;i++)
+        for(int j=0;j<10;j++)
             M[i][j]=0;
+    over=0;
+}
+ll cnt(ll x, ll y,ll n,ll m)
+{
+    ll cnt=0;
+    for(int i=0;i<8;i++)
+    {
+        ll nx=x+tx[i];
+        ll ny=y+ty[i];
+        if(nx<1 || nx>n || ny<1||ny>m)
+                continue;
+        if(M[nx][ny]==0)
+            cnt++;
+    }
+    return cnt;
+}
+struct Tar
+{
+    ll th,wei;
+    Tar(ll t=0, ll w=0)
+    {
+        th=t;
+        wei=w;
+    }
+    friend bool operator < (Tar a,Tar b)
+    {
+        return a.wei<=b.wei;
+    }
+};
+void dfs(ll th,ll x, ll y,ll n,ll m)
+{
+   // if(th==1)
+  //  cout<<th<<" "<<x<<" "<<y<<endl;
+    if(th==0)
+    {
+        M[x][y]=1;
+        dfs(1,x,y,n,m);
+    }
+    else if(th==n*m)
+    {
+        over=1;
+        show(n,m);
+    }
+    else
+    {
+        if(over==1)
+            return ;
+        ll nx,ny;
+        ll t=0;
+        Tar tar[8];
+        for(int i=0;i<8;i++)
+        {
+            nx=x+tx[i];
+            ny=y+ty[i];
+            if(nx<1 || nx>n || ny<1||ny>m)
+                continue;
+            if(M[nx][ny]!=0)
+                continue;
+            //M[nx][ny]=1;
+            tar[t++]=Tar(i,cnt(nx,ny,n,m));
+            //M[nx][ny]=0;
+        }
+        //cout<<t<<endl;
+        if(t==0)
+            return ;
+        sort(tar,tar+t);
+//        if(th==1)
+//        for(int i=0;i<t;i++)
+//        {
+//            cout<<tar[i].th<<" "<<tar[i].wei<<endl;
+//        }
+        for(int i=0;i<t;i++)
+        {
+            ll nx=x+tx[tar[i].th];
+            ll ny=y+ty[tar[i].th];
+            M[nx][ny]=th+1;
+            dfs(th+1,nx,ny,n,m);
+            M[nx][ny]=0;
+        }
+    }
 }
 int main ()
 {
-    init();
-    ll n,m;
-//    cin>>n>>m;
-//    dfs(0,0,0,n,m);
-
-    for(n=2;n<=8;n++)
+    int n=8;
+    //freopen("result.txt","w",stdout);
+    for(int i=1;i<=(1+n)/2;i++)
     {
-        for(m=n;m<=8;m++)
+        for(int j=i;j<=(1+n)/2;j++)
         {
+            cout<<i<<" * " << j<<endl;
             init();
-            cout<<n<<" * "<<m<<endl;
-            dfs(0,0,0,n,m);
+            dfs(0,i,j,n,n);
             if(over==0)
-            {
-                cout<<"无解"<<endl<<endl;
-            }
+                cout<<u"鍚村"<<endl;
+            cout<<endl;
         }
     }
-
     return 0;
 }
