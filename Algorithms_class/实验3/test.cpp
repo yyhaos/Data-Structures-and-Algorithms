@@ -4,35 +4,35 @@
 using namespace std;
 time_t now;
 #define ll long long
-const ll Year=5;    //¼ÆËãÄêÊı
-const ll NumShip=24;    //Ã¿ÔÂ´¬Êı
-const double AveStop=24;    //´¬Æ½¾ùÍ£²´Ê±¼ä
-const double HalfRangeStop=20;  //´¬Í£²´Ê±¼äµÄ°ë¼«²î
-const double AveArrive=30;  //´¬Æ½¾ùµ½´ïÏà¸ôÊ±¼ä
-const double HalfRangeArrive=15;    //´¬Æ½¾ùµ½´ïÊ±¼äµÄ°ë¼«²î
-const double CostPerHour=1000;  //´¬µÈ´ıµ¥Î»Ê±¼äÏûºÄ
+const ll Year=5;    //è®¡ç®—å¹´æ•°
+const ll NumShip=24;    //æ¯æœˆèˆ¹æ•°
+const double AveStop=24;    //èˆ¹å¹³å‡åœæ³Šæ—¶é—´
+const double HalfRangeStop=20;  //èˆ¹åœæ³Šæ—¶é—´çš„åŠæå·®
+const double AveArrive=30;  //èˆ¹å¹³å‡åˆ°è¾¾ç›¸éš”æ—¶é—´
+const double HalfRangeArrive=15;    //èˆ¹å¹³å‡åˆ°è¾¾æ—¶é—´çš„åŠæå·®
+const double CostPerHour=1000;  //èˆ¹ç­‰å¾…å•ä½æ—¶é—´æ¶ˆè€—
 const ll Month[]={0,0,31,59,90,120,151,181,212,243,273,304,334};
-double Arrive[Year*12*NumShip+1];   //Ã¿Ò»ËÒ´¬µÄµ½´ïÊ±¼ä
-double Stop[Year*12*NumShip+1]; //Ã¿Ò»ËÒ´«µÄÍ£²´Ê±¼ä
-double getRandom(double ave,double hfrange);   //µÃµ½Ò»¸öÔÚave-hfrange µ½ ave+hfrangeµÄËæ»ú¸¡µãÊı
-void init(); //³õÊ¼»¯Ã¿ËÒ´¬µÄµ½´ïÊ±¼ä¡¢Í£²´Ê±¼ä
-double get();    //Ä£ÄâÒ»´Î£¨Ä¬ÈÏ5Äê£©µÃµ½µÄÏûºÄÇ®Êı
-double getAve(ll N); //½øĞĞN´ÎÄ£Äâ£¬²¢Çó³öN´ÎÄ£ÄâÖµµÄÆ½¾ùÖµ
+double Arrive[Year*12*NumShip+1];   //æ¯ä¸€è‰˜èˆ¹çš„åˆ°è¾¾æ—¶é—´
+double Stop[Year*12*NumShip+1]; //æ¯ä¸€è‰˜ä¼ çš„åœæ³Šæ—¶é—´
+double getRandom(double ave,double hfrange);   //å¾—åˆ°ä¸€ä¸ªåœ¨ave-hfrange åˆ° ave+hfrangeçš„éšæœºæµ®ç‚¹æ•°
+void init(); //åˆå§‹åŒ–æ¯è‰˜èˆ¹çš„åˆ°è¾¾æ—¶é—´ã€åœæ³Šæ—¶é—´
+double get();    //æ¨¡æ‹Ÿä¸€æ¬¡ï¼ˆé»˜è®¤5å¹´ï¼‰å¾—åˆ°çš„æ¶ˆè€—é’±æ•°
+double getAve(ll N); //è¿›è¡ŒNæ¬¡æ¨¡æ‹Ÿï¼Œå¹¶æ±‚å‡ºNæ¬¡æ¨¡æ‹Ÿå€¼çš„å¹³å‡å€¼
 int main ()
 {
-    srand(time(0)); //Ëæ»úÊıÖÖ×Ó
-    for(int i=10000;i<=20000;i+=1000)
+    srand(time(0)); //éšæœºæ•°ç§å­
+    for(int i=10000;i<=20000;i+=2000)
     {
-        cout<<i<<"´Î\t:\t"<<(ll)getAve(i)/10000LL<<"ÍòÔª"<<endl;
+        cout<<i<<"  times:\tCNY "<<(ll)getAve(i)/10000LL<<",0000"<<endl;
     }
     return 0;
 }
-double getRandom(double ave,double hfrange)   //µÃµ½Ò»¸öÔÚave-hfrange µ½ ave+hfrangeµÄËæ»ú¸¡µãÊı
+double getRandom(double ave,double hfrange)   //å¾—åˆ°ä¸€ä¸ªåœ¨ave-hfrange åˆ° ave+hfrangeçš„éšæœºæµ®ç‚¹æ•°
 {
     double randnumber=1.0*rand()/RAND_MAX;
     return ave+2.0*hfrange*(randnumber-0.5);
 }
-void init() //³õÊ¼»¯Ã¿ËÒ´¬µÄµ½´ïÊ±¼ä¡¢Í£²´Ê±¼ä
+void init() //åˆå§‹åŒ–æ¯è‰˜èˆ¹çš„åˆ°è¾¾æ—¶é—´ã€åœæ³Šæ—¶é—´
 {
     Arrive[0]=0;
     for(int i=1;i<=Year*12*NumShip;i++)
@@ -41,27 +41,27 @@ void init() //³õÊ¼»¯Ã¿ËÒ´¬µÄµ½´ïÊ±¼ä¡¢Í£²´Ê±¼ä
         Stop[i]=getRandom(AveStop,HalfRangeStop);
     }
 }
-double get()    //Ä£ÄâÒ»´Î£¨Ä¬ÈÏ5Äê£©µÃµ½µÄÏûºÄÇ®Êı
+double get()    //æ¨¡æ‹Ÿä¸€æ¬¡ï¼ˆé»˜è®¤5å¹´ï¼‰å¾—åˆ°çš„æ¶ˆè€—é’±æ•°
 {
     init();
     double cost=0;
-    double preLeaveTime=0;  //¼ÇÂ¼ÉÏÒ»ËÒ´¬µÄÀë¿ªÊ±¼ä
+    double preLeaveTime=0;  //è®°å½•ä¸Šä¸€è‰˜èˆ¹çš„ç¦»å¼€æ—¶é—´
     for(ll i=1;i<=Year*12*NumShip;i++)
     {
-        //cost+=max(0.0,CostPerHour*(Arrive[i+1]-Arrive[i]-Stop[i]));´íÎó Ã»ÓĞ¿¼ÂÇµÈ´ıºóµÄ´¬µÄµ½´ïÊ±¼ä»á¸Ä±ä
-        if(i!=1)    //µÚÒ»ËÒ´¬²»»áÓĞµÈ´ı·ÑÓÃ
+        //cost+=max(0.0,CostPerHour*(Arrive[i+1]-Arrive[i]-Stop[i]));é”™è¯¯ æ²¡æœ‰è€ƒè™‘ç­‰å¾…åçš„èˆ¹çš„åˆ°è¾¾æ—¶é—´ä¼šæ”¹å˜
+        if(i!=1)    //ç¬¬ä¸€è‰˜èˆ¹ä¸ä¼šæœ‰ç­‰å¾…è´¹ç”¨
         {
-            if(Arrive[i]<preLeaveTime)  //µ±Ç°Ò»ËÒ´¬»¹Ã»ÓĞÀë¿ªµÄÊ±ºò¾Íµ½ÁËĞÂ´¬ ¾ÍÒª¼ÆËã·ÑÓÃ
+            if(Arrive[i]<preLeaveTime)  //å½“å‰ä¸€è‰˜èˆ¹è¿˜æ²¡æœ‰ç¦»å¼€çš„æ—¶å€™å°±åˆ°äº†æ–°èˆ¹ å°±è¦è®¡ç®—è´¹ç”¨
             {
                 cost+=CostPerHour*(preLeaveTime-Arrive[i]);
-                Arrive[i]=preLeaveTime; //¸üĞÂÕæÕıµ½´ïÊ±¼ä
+                Arrive[i]=preLeaveTime; //æ›´æ–°çœŸæ­£åˆ°è¾¾æ—¶é—´
             }
         }
-        preLeaveTime=Arrive[i]+Stop[i]; //¸üĞÂÀë¿ªÊ±¼ä
+        preLeaveTime=Arrive[i]+Stop[i]; //æ›´æ–°ç¦»å¼€æ—¶é—´
     }
     return cost;
 }
-double getAve(ll N) //½øĞĞN´ÎÄ£Äâ£¬²¢Çó³öN´ÎÄ£ÄâÖµµÄÆ½¾ùÖµ
+double getAve(ll N) //è¿›è¡ŒNæ¬¡æ¨¡æ‹Ÿï¼Œå¹¶æ±‚å‡ºNæ¬¡æ¨¡æ‹Ÿå€¼çš„å¹³å‡å€¼
 {
     double sum=0;
     for(int i=1;i<=N;i++)
