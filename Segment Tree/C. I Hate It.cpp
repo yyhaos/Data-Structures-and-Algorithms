@@ -38,7 +38,17 @@ ll ksm(ll a,ll b)
 }
 
 ll t,n,m;
-
+struct pos
+{
+    ll s,th;
+    pos(ll _s=0,ll _th=0)
+    {
+        s=_s;
+        th=_th;
+    }
+};
+pos a[500005];
+const ll os=200001;
 int main ()
 {
 #ifdef yyhao
@@ -51,8 +61,20 @@ cin>>t;
 for(ii=1;ii<=t;ii++)
 {
 #endif // use_t
-
-
+ll tmp;
+    while(~scanf("%lld%lld",&n,&m))
+    {
+        for(int i=1;i<=n+os;i++)
+        {
+            pos[i]=pos(0,0);
+        }
+        for(ll i=1;i<=n;i++)
+        {
+            scanf("%lld",&tmp);
+            t=i+os;
+            a[t]=pos(tmp,i);
+        }
+    }
 
 
 
