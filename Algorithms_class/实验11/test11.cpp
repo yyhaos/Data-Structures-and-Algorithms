@@ -96,6 +96,10 @@ ll fi(ll x)
         return x;
     else
         return fa[x]=fi(fa[x]);
+//        {
+//            fa[x]=fi(fa[x]);
+//            return fi(fa[x]);
+//        }
 }
 void un(ll x, ll y)
 {

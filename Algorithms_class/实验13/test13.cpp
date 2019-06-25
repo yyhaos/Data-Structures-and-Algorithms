@@ -9,7 +9,8 @@ void init(ll n)
 {
     for(int i=1;i<=n;i++)
     {
-        N[i]=rand()%(maxn-1)+1;//正整数
+        N[i]=maxn/10+(rand()%(maxn-1)/10)+1;//正整数
+        //cout<<N[i]<<" ";
     }
     sort(N+1,N+1+n);
     sum[n+1]=0;
@@ -21,8 +22,7 @@ void init(ll n)
 }
 bool fi(ll n,ll th, ll tmp,ll tar)
 {
-
-    if(tmp>0)
+    //if(tmp>0)
     //cout<<n<<" "<<th<<" "<<tmp<<" "<<tar<<endl;
     if(th>=n+1)
         return false;
@@ -63,13 +63,22 @@ int main ()
     ll n=10000;
     maxn=n;
     ll tar=n;
-    init(n);
-    if(n<=100)
-        showN(n);
-    if(fi(n,1,0,tar))
-        show(n);
-    else
-        cout<<"没有找到\n";
+    for(n=10;n<=10000;n*=10)
+    {
+        init(n);
+       // if(n<=100)
+       //     showN(n);
+
+        cout<<"对"<<n<<"个整数进行检查，是否存在子集使得子集的和数为"<<tar<<endl;
+        if(fi(n,1,0,tar))
+        {
+            cout<<"存在:"<<endl;
+            show(n);
+        }
+        else
+            cout<<"没有找到\n";
+
+    }
 
     return 0;
 }
