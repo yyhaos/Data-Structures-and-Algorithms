@@ -6,3 +6,7 @@ Reference Websites :  https://visualgo.net/en/sorting?slide=10-2
 Data Structures Class  
 ### 2019.3.1-  
 Algorithms 
+
+
+
+![](Master Therorem.png)
